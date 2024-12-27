@@ -42,7 +42,68 @@
     ```
 
 ## Usage
-
 Run the script using Python:
 ```bash
 python statementSync.py
+
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Load Environment Variables]
+    B --> C[Initialize Notion & OpenAI Clients]
+
+    C --> D[Query Main Database]
+    D --> E[Get Unprocessed PDFs]
+
+    E --> F{PDF Found?}
+    F -->|No| Z[End]
+    F -->|Yes| G[Get Respondent Info]
+
+    G --> H{Existing Database?}
+    H -->|Yes| J[Use Existing DB]
+    H -->|No| I[Create New DB]
+    I --> J
+
+    J --> K[Process PDF]
+    K --> L[Extract Text]
+    L --> M[Analyze with GPT]
+    M --> N[Format Data]
+
+    N --> O[Populate Database]
+    O --> P{More PDFs?}
+    P -->|Yes| E
+    P -->|No| Z
+
+```
+
+```mermaid
+classDiagram
+    class MainProcess{
+        +load_env()
+        +init_clients()
+        +process_pdfs()
+    }
+
+    class PDFProcessing{
+        +read_pdf()
+        +analyze_pdf_content()
+        +process_single_pdf()
+    }
+
+    class DatabaseManagement{
+        +check_existing_database()
+        +create_new_database()
+        +populate_database()
+    }
+
+    class DataTracking{
+        +processed_pdfs
+        +get_pdf_entries()
+        +mark_as_processed()
+    }
+
+    MainProcess --> PDFProcessing
+    MainProcess --> DatabaseManagement
+    MainProcess --> DataTracking
+
+```
