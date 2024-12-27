@@ -43,7 +43,6 @@
 
 ## Usage
 Run the script using Python:
-```bash
 python statementSync.py
 
 
